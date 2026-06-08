@@ -946,6 +946,7 @@ function renderPrev(srcId, wrapId) {
   w.innerHTML='';
   const sc=getScale(), cl=src.cloneNode(true);
   cl.removeAttribute('id');
+  cl.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
   cl.style.cssText=`width:1050px;height:743px;transform:scale(${sc});transform-origin:top left;visibility:visible;`;
   w.style.cssText=`width:${Math.round(1050*sc)}px;height:${Math.round(743*sc)}px;overflow:hidden;`;
   w.appendChild(cl);
