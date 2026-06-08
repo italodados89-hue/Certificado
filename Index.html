@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificados | TransformAção IVA Experience</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+/* ============================================================
+   DESIGN SYSTEM — Corporate Modern + Orange accent
+============================================================ */
+:root {
+  --orange:       #FF6200;
+  --orange-d:     #CC4E00;
+  --orange-xs:    rgba(255,98,0,.06);
+  --orange-sm:    rgba(255,98,0,.12);
+  --dark:         #111827;
+  --dark-2:       #1F2937;
+  --dark-3:       #374151;
+  --gray:         #6B7280;
+  --gray-2:       #9CA3AF;
+  --gray-light:   #F3F4F6;
+  --border:       #E5E7EB;
+  --white:        #FFFFFF;
+  --shadow-xs:    0 1px 3px rgba(0,0,0,.07);
+  --shadow-sm:    0 2px 8px rgba(0,0,0,.08);
+  --shadow:       0 4px 20px rgba(0,0,0,.10);
+  --shadow-lg:    0 8px 40px rgba(0,0,0,.14);
+  --radius:       14px;
+  --radius-sm:    10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--gray-light); color: var(--dark); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+.screen { display: none; }
+.screen.active { display: block; min-height: 100vh; }
+.logo-svg { display: block; }
+
+/* ============================================================
+   SCREEN 1 — SELEÇÃO
+============================================================ */
+.s1-header {
+  background: var(--dark);
+  padding: 0 40px;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.s1-header-brand { display: flex; align-items: center; gap: 12px; }
+.s1-header-brand span { font-size: 14px; font-weight: 600; color: rgba(255,255,255,.9); letter-spacing: .2px; }
+.s1-header-tag {
+  background: rgba(255,98,0,.18); color: #FF8533;
+  padding: 4px 12px; border-radius: 20px;
+  font-size: 12px; font-weight: 600; letter-spacing: .4px;
+  border: 1px solid rgba(255,98,0,.25);
+}
+.s1-hero { background: var(--white); border-bottom: 1px solid var(--border); padding: 52px 40px 44px; }
+.s1-hero-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+.s1-hero h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 40px; font-weight: 700; line-height: 1.18; color: var(--dark); letter-spacing: -.03em; }
+.s1-hero h1 em { font-style: normal; color: var(--orange); }
+.s1-hero p { margin-top: 12px; font-size: 15px; color: var(--gray); line-height: 1.65; max-width: 420px; }
+.s1-hero-stats { display: flex; gap: 32px; flex-shrink: 0; }
+.stat-item { text-align: center; }
+.stat-num { font-size: 28px; font-weight: 700; color: var(--dark); font-family: 'Playfair Display', serif; }
+.stat-lbl { font-size: 11px; color: var(--gray-2); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+.s1-course-bar { background: var(--orange-xs); border-bottom: 1px solid rgba(255,98,0,.12); padding: 0 40px; }
+.s1-course-bar-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; gap: 12px; padding: 12px 0; font-size: 13px; flex-wrap: wrap; }
+.course-pill {
+  display: flex; align-items: center; gap: 7px;
+  background: var(--orange); color: white;
+  padding: 5px 14px; border-radius: 20px;
+  font-size: 12px; font-weight: 600; letter-spacing: .3px; flex-shrink: 0;
+}
+.course-pill-ia { background: var(--dark-2); }
+.course-pill svg { width: 13px; height: 13px; opacity: .9; }
+.s1-course-bar-inner > span { color: var(--gray); }
+.s1-course-bar-inner .bar-hint { margin-left: auto; color: var(--gray-2); font-size: 12px; }
+.s1-grid-wrap { max-width: 960px; margin: 0 auto; padding: 36px 40px 80px; }
+.s1-grid-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--gray-2); margin-bottom: 18px; }
+.s1-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(285px, 1fr)); gap: 14px; }
+.stu-card {
+  background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius);
+  padding: 18px 20px; display: flex; align-items: center; gap: 14px;
+  cursor: pointer; transition: border-color .2s, box-shadow .2s, transform .2s;
+  box-shadow: var(--shadow-xs); position: relative; overflow: hidden;
+}
+.stu-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--orange); transform: scaleY(0); transform-origin: center;
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1); border-radius: 0 2px 2px 0;
+}
+.stu-card:hover { border-color: rgba(255,98,0,.3); box-shadow: 0 4px 18px rgba(255,98,0,.12); transform: translateX(2px); }
+.stu-card:hover::before { transform: scaleY(1); }
+.stu-card:active { transform: translateX(1px); }
+.stu-card:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+.stu-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--dark); color: white; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; flex-shrink: 0; font-family: 'Playfair Display', serif; letter-spacing: -.02em; }
+.stu-info { flex: 1; min-width: 0; }
+.stu-info h3 { font-size: 14px; font-weight: 600; color: var(--dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stu-info p { font-size: 12px; color: var(--gray-2); margin-top: 3px; }
+.stu-arrow { margin-left: auto; flex-shrink: 0; color: var(--border); transition: color .2s, transform .2s; }
+.stu-card:hover .stu-arrow { color: var(--orange); transform: translateX(3px); }
+
+/* ============================================================
+   SCREEN COURSE — SELEÇÃO DE CURSO
+============================================================ */
+#screen-course { background: var(--gray-light); }
+.sc-wrap { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+.sc-back {
+  align-self: flex-start; margin-bottom: 20px;
+  background: var(--white); border: 1.5px solid var(--border); border-radius: 10px;
+  padding: 8px 16px; cursor: pointer; display: flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 500; color: var(--dark-3);
+  transition: border-color .2s, box-shadow .2s; font-family: 'DM Sans', sans-serif;
+}
+.sc-back:hover { border-color: var(--orange); box-shadow: 0 2px 8px rgba(255,98,0,.1); }
+.sc-card {
+  background: var(--white); border: 1.5px solid var(--border); border-radius: 20px;
+  box-shadow: var(--shadow-lg); padding: 44px 48px; width: 100%; max-width: 600px; text-align: center;
+}
+.sc-icon-ring {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--dark); color: white;
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 22px;
+}
+.sc-icon-ring svg { width: 30px; height: 30px; }
+.sc-card h2 { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--dark); margin-bottom: 6px; }
+.sc-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--orange); margin-bottom: 8px; line-height: 1.25; }
+.sc-subtitle { font-size: 13px; color: var(--gray); margin-bottom: 32px; line-height: 1.6; }
+.sc-courses { display: flex; gap: 16px; justify-content: center; }
+.sc-course-btn {
+  flex: 1; border: 2px solid var(--border); border-radius: 16px;
+  padding: 28px 18px 24px; cursor: pointer; background: var(--white);
+  transition: border-color .2s, box-shadow .2s, transform .18s; text-align: center;
+  position: relative; overflow: hidden; font-family: 'DM Sans', sans-serif;
+}
+.sc-course-btn::before {
+  content: ''; position: absolute; inset: 0; background: var(--orange-xs); opacity: 0; transition: opacity .2s;
+}
+.sc-course-btn:hover { border-color: var(--orange); box-shadow: 0 8px 28px rgba(255,98,0,.16); transform: translateY(-3px); }
+.sc-course-btn:hover::before { opacity: 1; }
+.sc-course-btn:active { transform: translateY(-1px); }
+.sc-course-icon {
+  width: 58px; height: 58px; border-radius: 50%; background: var(--dark);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px; position: relative; z-index: 1;
+}
+.sc-course-icon svg { width: 28px; height: 28px; }
+.sc-course-name { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; color: var(--dark); margin-bottom: 6px; position: relative; z-index: 1; }
+.sc-course-desc { font-size: 11.5px; color: var(--gray); line-height: 1.55; position: relative; z-index: 1; max-width: 180px; margin: 0 auto 14px; }
+.sc-course-tag {
+  display: inline-block; background: var(--orange-xs); color: var(--orange);
+  border: 1px solid rgba(255,98,0,.22); border-radius: 20px; padding: 4px 12px;
+  font-size: 11px; font-weight: 600; letter-spacing: .4px; position: relative; z-index: 1;
+}
+
+/* ============================================================
+   SCREEN 2 — AUTH
+============================================================ */
+#screen-auth { background: var(--gray-light); }
+.s2-wrap { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+.s2-back {
+  align-self: flex-start; margin-bottom: 20px;
+  background: var(--white); border: 1.5px solid var(--border); border-radius: 10px;
+  padding: 8px 16px; cursor: pointer; display: flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 500; color: var(--dark-3);
+  transition: border-color .2s, box-shadow .2s; font-family: 'DM Sans', sans-serif;
+}
+.s2-back:hover { border-color: var(--orange); box-shadow: 0 2px 8px rgba(255,98,0,.1); }
+.s2-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 20px; box-shadow: var(--shadow-lg); padding: 44px 48px; width: 100%; max-width: 420px; text-align: center; }
+.s2-icon-ring { width: 64px; height: 64px; border-radius: 50%; background: var(--dark); color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; }
+.s2-icon-ring svg { width: 28px; height: 28px; }
+.s2-card h2 { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--dark); margin-bottom: 6px; }
+.s2-card .s2-name { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; color: var(--orange); margin-bottom: 6px; line-height: 1.25; }
+.s2-course-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--orange-xs); color: var(--orange);
+  border: 1px solid rgba(255,98,0,.2); border-radius: 20px;
+  padding: 4px 12px; font-size: 11.5px; font-weight: 600;
+  margin-bottom: 18px; letter-spacing: .3px;
+}
+.s2-card p { font-size: 13px; color: var(--gray); margin-bottom: 26px; line-height: 1.6; }
+.s2-label { display: block; font-size: 11px; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; text-align: left; margin-bottom: 8px; }
+.s2-input {
+  width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 11px;
+  font-size: 17px; font-family: 'DM Sans', sans-serif; letter-spacing: 3px; text-align: center;
+  outline: none; color: var(--dark); background: var(--white);
+  transition: border-color .18s, box-shadow .18s; margin-bottom: 6px;
+}
+.s2-input:focus { border-color: var(--dark); box-shadow: 0 0 0 3px rgba(17,24,39,.08); }
+.s2-input.err { border-color: #EF4444; box-shadow: 0 0 0 3px rgba(239,68,68,.1); }
+.s2-err { font-size: 12px; color: #EF4444; min-height: 18px; margin-bottom: 18px; display: none; }
+.s2-err.show { display: block; }
+.btn-cta {
+  width: 100%; padding: 14px; background: var(--dark); color: white;
+  border: none; border-radius: 11px; font-size: 14px; font-weight: 600; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: background .2s, box-shadow .2s, transform .15s;
+  font-family: 'DM Sans', sans-serif; letter-spacing: .2px;
+}
+.btn-cta:hover { background: var(--dark-2); box-shadow: 0 6px 20px rgba(17,24,39,.2); transform: translateY(-1px); }
+.btn-cta:active { transform: none; }
+
+/* ============================================================
+   SCREEN 3 — VIEWER
+============================================================ */
+.s3-header {
+  background: var(--white); border-bottom: 1.5px solid var(--border);
+  padding: 0 32px; height: 60px; display: flex; align-items: center;
+  justify-content: space-between; gap: 16px; position: sticky; top: 0; z-index: 50;
+  box-shadow: var(--shadow-xs);
+}
+.s3-header-left { display: flex; align-items: center; gap: 10px; }
+.s3-back-btn {
+  background: var(--gray-light); border: 1.5px solid var(--border); cursor: pointer;
+  padding: 7px 14px; border-radius: 9px; font-size: 13px; font-weight: 500;
+  color: var(--dark-3); display: flex; align-items: center; gap: 6px;
+  transition: border-color .18s; font-family: 'DM Sans', sans-serif;
+}
+.s3-back-btn:hover { border-color: var(--dark-3); }
+.s3-title { font-size: 13px; color: var(--gray); }
+.s3-title strong { color: var(--dark); font-weight: 600; }
+.btn-dl {
+  background: var(--orange); color: white; border: none; border-radius: 10px;
+  padding: 10px 24px; font-size: 13px; font-weight: 600; cursor: pointer;
+  display: flex; align-items: center; gap: 7px;
+  transition: background .18s, box-shadow .18s, transform .15s;
+  box-shadow: 0 3px 12px rgba(255,98,0,.28); font-family: 'DM Sans', sans-serif;
+}
+.btn-dl:hover { background: var(--orange-d); box-shadow: 0 6px 20px rgba(255,98,0,.32); transform: translateY(-1px); }
+.btn-dl:disabled { opacity: .55; cursor: not-allowed; transform: none; box-shadow: none; }
+.s3-body { padding: 36px 24px 80px; }
+.s3-pages { display: flex; flex-direction: column; gap: 28px; align-items: center; }
+.pg-label { font-size: 11px; font-weight: 600; color: var(--gray-2); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 10px; }
+.cert-wrap { background: #6B7280; padding: 10px; border-radius: 10px; box-shadow: var(--shadow-lg); overflow: hidden; }
+
+/* ── LOADING ── */
+#loading { position: fixed; inset: 0; z-index: 9999; background: rgba(17,24,39,.75); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; flex-direction: column; gap: 18px; }
+#loading.on { display: flex; }
+.spin { width: 48px; height: 48px; border: 4px solid rgba(255,255,255,.15); border-top-color: var(--orange); border-radius: 50%; animation: spin .75s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+#loading p { color: rgba(255,255,255,.85); font-size: 14px; font-weight: 500; }
+
+/* ============================================================
+   CERTIFICATE PAGES — 1050 × 743px (A4 Landscape)
+   System fonts only — reliable html2canvas rendering
+============================================================ */
+#cert-render { position: fixed; left: -9999px; top: 0; z-index: -1; visibility: hidden; pointer-events: none; }
+.cert-page { width: 1050px; height: 743px; background: #FFFFFF; position: relative; overflow: hidden; font-family: Arial, 'Helvetica Neue', sans-serif; }
+.cp-frame { position: absolute; inset: 14px; border: 1.5px solid #FF6200; border-radius: 3px; pointer-events: none; z-index: 12; }
+.cp-frame-inner { position: absolute; inset: 18px; border: .5px solid rgba(255,98,0,.22); border-radius: 1px; pointer-events: none; z-index: 12; }
+.cp-strip { position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #FF6200 0%, #FF9500 50%, #FF6200 100%); z-index: 15; }
+.cp-wm { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: .03; pointer-events: none; z-index: 1; }
+.cp-corner { position: absolute; z-index: 13; }
+.cp-corner-tl { top: 22px; left: 22px; }
+.cp-corner-tr { top: 22px; right: 22px; transform: scaleX(-1); }
+.cp-corner-bl { bottom: 22px; left: 22px; transform: scaleY(-1); }
+.cp-corner-br { bottom: 22px; right: 22px; transform: scale(-1); }
+.cp-corner svg { width: 30px; height: 30px; }
+.cp-header { position: relative; z-index: 5; display: flex; align-items: center; padding: 26px 56px 0; margin-top: 5px; }
+.cp-logo-col { flex: 0 0 120px; }
+.cp-title-col { flex: 1; text-align: center; }
+.cp-title-word { font-family: 'Times New Roman', Georgia, serif; font-size: 40px; font-weight: 700; color: #FF6200; letter-spacing: 10px; text-transform: uppercase; }
+.cp-right-col { flex: 0 0 120px; text-align: right; }
+.cp-code { font-size: 8.5px; color: #CCC; letter-spacing: .3px; font-family: Arial, sans-serif; }
+.cp-div { margin: 12px 56px 0; height: 1.5px; background: linear-gradient(90deg, transparent 0%, #FF6200 12%, #FF6200 88%, transparent 100%); position: relative; z-index: 5; }
+.cp-div-gem { position: absolute; top: -5px; left: 50%; transform: translateX(-50%); width: 11px; height: 11px; background: #FF6200; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+.cp-body { position: relative; z-index: 5; text-align: center; padding: 18px 90px 0; }
+.cp-course { font-family: 'Times New Roman', Georgia, serif; font-size: 26px; font-weight: 700; color: #FF6200; letter-spacing: .5px; margin-bottom: 3px; }
+.cp-org { font-size: 11px; color: #9CA3AF; letter-spacing: 3.5px; text-transform: uppercase; margin-bottom: 22px; font-family: Arial, sans-serif; }
+.cp-conf { font-size: 10.5px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 7px; font-family: Arial, sans-serif; }
+.cp-name { font-family: 'Times New Roman', Georgia, serif; font-size: 36px; font-weight: 700; color: #111827; margin-bottom: 7px; line-height: 1.15; }
+.cp-rg { font-size: 12px; color: #9CA3AF; letter-spacing: .8px; margin-bottom: 18px; font-family: Arial, sans-serif; }
+.cp-para { font-size: 13px; line-height: 1.78; color: #4B5563; max-width: 720px; margin: 0 auto; font-family: Arial, sans-serif; }
+.cp-para strong { color: #111827; font-weight: 700; }
+
+/* IA badge — appears in cert page 1 for IA certificates only */
+.cp-ia-badge {
+  position: absolute; z-index: 10; top: 156px; right: 64px;
+  display: none;
+}
+
+/* Footer — Page 1 */
+.cp-footer1 { position: absolute; bottom: 30px; left: 56px; right: 56px; display: flex; align-items: flex-end; justify-content: space-between; z-index: 5; }
+.cp-sig-block { text-align: left; }
+.cp-sig-name-script { font-family: 'Times New Roman', Georgia, serif; font-size: 30px; font-style: italic; color: #1F2937; line-height: 1; margin-bottom: 3px; }
+.cp-sig-line { width: 200px; height: 1.5px; background: #1F2937; margin-bottom: 6px; }
+.cp-sig-printed { font-size: 12px; font-weight: 700; color: #111827; font-family: Arial, sans-serif; letter-spacing: .2px; }
+.cp-sig-detail { font-size: 10.5px; color: #6B7280; margin-top: 2px; font-family: Arial, sans-serif; }
+.cp-sig-role { font-size: 10px; color: #9CA3AF; margin-top: 1px; font-family: Arial, sans-serif; }
+.cp-govbr { border: 1px solid #D1D5DB; border-radius: 5px; background: #FFFFFF; padding: 8px 11px; display: flex; align-items: center; gap: 10px; width: 270px; flex-shrink: 0; }
+.cp-govbr-logo { flex-shrink: 0; }
+.cp-govbr-divider { width: 1px; height: 44px; background: #E5E7EB; flex-shrink: 0; }
+.cp-govbr-text { font-family: Arial, sans-serif; flex: 1; min-width: 0; }
+.cp-govbr-text .t1 { font-size: 7.5px; color: #9CA3AF; font-style: italic; margin-bottom: 2px; }
+.cp-govbr-text .t2 { font-size: 8.5px; font-weight: 700; color: #111827; letter-spacing: .1px; margin-bottom: 2px; }
+.cp-govbr-text .t3 { font-size: 7.5px; color: #6B7280; margin-bottom: 1px; }
+.cp-govbr-text .t4 { font-size: 7.5px; color: #6B7280; }
+.cp-date-seal { text-align: right; }
+.cp-date-txt { font-size: 11px; color: #9CA3AF; font-style: italic; margin-bottom: 8px; font-family: Arial, sans-serif; }
+.cp-seal svg { width: 82px; height: 82px; }
+
+/* ── PAGE 2 ── */
+.cp-p2-body { position: relative; z-index: 5; padding: 16px 56px 0; }
+.cp-p2-title { font-family: 'Times New Roman', Georgia, serif; font-size: 22px; font-weight: 700; color: #FF6200; text-align: center; letter-spacing: .5px; margin-bottom: 3px; }
+.cp-p2-sub { font-size: 10.5px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 2.5px; text-align: center; margin-bottom: 16px; font-family: Arial, sans-serif; }
+.cp-p2-name-span { text-transform: none; letter-spacing: .5px; color: #374151; font-weight: 600; }
+.mod-table { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 11px; }
+.mod-table th { background: #111827; color: #FFFFFF; padding: 8px 11px; text-align: left; font-weight: 700; font-size: 10.5px; letter-spacing: .3px; }
+.mod-table th:first-child, .mod-table td:first-child { width: 52px; text-align: center; }
+.mod-table th:last-child, .mod-table td:last-child { width: 85px; text-align: center; }
+.mod-table td { padding: 6.5px 11px; border-bottom: 1px solid #F3F4F6; color: #374151; vertical-align: top; line-height: 1.4; }
+.mod-table tr:nth-child(even) td { background: #FAFAFA; }
+.mod-table tr.tr-total td { background: rgba(255,98,0,.07) !important; font-weight: 700; color: #CC4E00; border-top: 1.5px solid #FF6200; font-size: 11.5px; }
+.cp-footer2 { position: absolute; bottom: 26px; left: 56px; right: 56px; display: flex; align-items: center; justify-content: flex-end; z-index: 5; }
+.cp-footer2-txt { font-size: 10px; color: #D1D5DB; font-style: italic; font-family: Arial, sans-serif; letter-spacing: .3px; }
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media (max-width: 1100px) {
+  .s1-hero { padding: 44px 24px 36px; }
+  .s1-course-bar, .s1-grid-wrap { padding-left: 24px; padding-right: 24px; }
+  .s1-header { padding: 0 24px; }
+}
+@media (max-width: 768px) {
+  .s1-hero h1 { font-size: 30px; }
+  .s1-hero-stats { gap: 20px; }
+  .stat-num { font-size: 22px; }
+  .s2-card, .sc-card { padding: 32px 24px; }
+  .sc-courses { flex-direction: column; }
+  .s3-header { padding: 0 16px; }
+  .s3-body { padding: 24px 12px 60px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── LOADING ── -->
+<div id="loading">
+  <div class="spin"></div>
+  <p id="loading-msg">Gerando PDF…</p>
+</div>
+
+<!-- ============================================================
+     SCREEN 1 — SELEÇÃO
+============================================================ -->
+<div id="screen-select" class="screen active">
+  <header class="s1-header">
+    <div class="s1-header-brand">
+      <svg width="28" height="32" viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
+        <path d="M100,12 A85,85 0 1,0 168,55" stroke="#FF6200" stroke-width="8" fill="none" stroke-linecap="round"/>
+        <rect x="58" y="128" width="14" height="37" rx="2" fill="#FF6200"/>
+        <rect x="79" y="113" width="14" height="52" rx="2" fill="#FF6200"/>
+        <rect x="100" y="95" width="14" height="70" rx="2" fill="#FF6200"/>
+        <rect x="121" y="73" width="14" height="92" rx="2" fill="#FF6200"/>
+        <line x1="52" y1="165" x2="140" y2="165" stroke="#FF6200" stroke-width="3"/>
+        <line x1="131" y1="65" x2="170" y2="28" stroke="#FF6200" stroke-width="6" stroke-linecap="round"/>
+        <polygon points="170,28 159,36 164,23" fill="#FF6200"/>
+      </svg>
+      <span>TransformAção · IVA Experience</span>
+    </div>
+    <div class="s1-header-tag">Emissão 2026</div>
+  </header>
+
+  <section class="s1-hero">
+    <div class="s1-hero-inner">
+      <div>
+        <h1>Seus <em>Certificados</em><br>estão aqui.</h1>
+        <p>Selecione seu nome, escolha o certificado, informe o CPF e baixe em PDF de alta qualidade.</p>
+      </div>
+      <div class="s1-hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">11</div>
+          <div class="stat-lbl">Concluintes</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">25h</div>
+          <div class="stat-lbl">Carga Horária</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">2</div>
+          <div class="stat-lbl">Cursos</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="s1-course-bar">
+    <div class="s1-course-bar-inner">
+      <div class="course-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Power BI
+      </div>
+      <div class="course-pill course-pill-ia">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="2"/><circle cx="20" cy="6" r="2"/><circle cx="4" cy="18" r="2"/><circle cx="20" cy="18" r="2"/><line x1="6" y1="7" x2="10" y2="11"/><line x1="18" y1="7" x2="14" y2="11"/><line x1="6" y1="17" x2="10" y2="13"/><line x1="18" y1="17" x2="14" y2="13"/></svg>
+        Inteligência Artificial
+      </div>
+      <span class="bar-hint">Selecione seu nome para continuar →</span>
+    </div>
+  </div>
+
+  <div class="s1-grid-wrap">
+    <div class="s1-grid-label">Participantes certificados</div>
+    <div class="s1-grid" id="student-grid"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCREEN COURSE — SELEÇÃO DE CURSO
+============================================================ -->
+<div id="screen-course" class="screen">
+  <div class="sc-wrap">
+    <button class="sc-back" onclick="goSelect()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15,18 9,12 15,6"/></svg>
+      Voltar
+    </button>
+    <div class="sc-card">
+      <div class="sc-icon-ring">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+      </div>
+      <h2>Escolha o certificado</h2>
+      <div class="sc-name" id="sc-name"></div>
+      <p class="sc-subtitle">Selecione qual certificado deseja emitir:</p>
+      <div class="sc-courses">
+        <!-- Power BI -->
+        <button class="sc-course-btn" onclick="pickCourse('pbi')">
+          <div class="sc-course-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+              <polyline points="6,14 9,11 12,13 16,8 18,10"/>
+            </svg>
+          </div>
+          <div class="sc-course-name">Power BI</div>
+          <div class="sc-course-desc">Análise e Visualização de Dados · 9 módulos</div>
+          <div class="sc-course-tag">25 horas</div>
+        </button>
+        <!-- Inteligência Artificial -->
+        <button class="sc-course-btn" onclick="pickCourse('ia')">
+          <div class="sc-course-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
+              <circle cx="12" cy="12" r="3"/>
+              <circle cx="4" cy="6" r="2"/><circle cx="20" cy="6" r="2"/>
+              <circle cx="4" cy="18" r="2"/><circle cx="20" cy="18" r="2"/>
+              <line x1="6" y1="7" x2="10" y2="11"/>
+              <line x1="18" y1="7" x2="14" y2="11"/>
+              <line x1="6" y1="17" x2="10" y2="13"/>
+              <line x1="18" y1="17" x2="14" y2="13"/>
+            </svg>
+          </div>
+          <div class="sc-course-name">Inteligência Artificial</div>
+          <div class="sc-course-desc">Claude, ChatGPT e Automações · 8 módulos</div>
+          <div class="sc-course-tag">25 horas</div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCREEN 2 — AUTH
+============================================================ -->
+<div id="screen-auth" class="screen">
+  <div class="s2-wrap">
+    <button class="s2-back" onclick="goCourse()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15,18 9,12 15,6"/></svg>
+      Voltar
+    </button>
+    <div class="s2-card">
+      <div class="s2-icon-ring">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </div>
+      <h2>Verificação de identidade</h2>
+      <div class="s2-name" id="s2-name"></div>
+      <div class="s2-course-pill" id="s2-course-pill">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        <span id="s2-course-label"></span>
+      </div>
+      <p>Para liberar o certificado, confirme sua identidade digitando o CPF cadastrado no ato da inscrição.</p>
+      <label class="s2-label" for="cpf-in">CPF</label>
+      <input id="cpf-in" class="s2-input" type="text" placeholder="000.000.000-00" maxlength="14"
+             oninput="fmtCPF(this)" onkeydown="if(event.key==='Enter')doAuth()" autocomplete="off"/>
+      <div class="s2-err" id="s2-err">CPF inválido. Verifique e tente novamente.</div>
+      <button class="btn-cta" onclick="doAuth()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        Acessar Certificado
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCREEN 3 — VIEWER
+============================================================ -->
+<div id="screen-cert" class="screen">
+  <header class="s3-header">
+    <div class="s3-header-left">
+      <button class="s3-back-btn" onclick="goSelect()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15,18 9,12 15,6"/></svg>
+        Voltar
+      </button>
+      <span class="s3-title">Certificado de <strong id="s3-name"></strong></span>
+    </div>
+    <button class="btn-dl" id="btn-dl" onclick="dlPDF()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Baixar PDF
+    </button>
+  </header>
+  <div class="s3-body">
+    <div class="s3-pages">
+      <div>
+        <p class="pg-label">Página 1 — Certificado</p>
+        <div class="cert-wrap" id="prev1"></div>
+      </div>
+      <div>
+        <p class="pg-label">Página 2 — Conteúdo Programático</p>
+        <div class="cert-wrap" id="prev2"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     CERTIFICATE RENDER (off-screen)
+============================================================ -->
+<div id="cert-render">
+
+  <!-- ── PAGE 1 ── -->
+  <div class="cert-page" id="cp1">
+    <div class="cp-strip"></div>
+    <div class="cp-frame"></div>
+    <div class="cp-frame-inner"></div>
+    <!-- Watermark -->
+    <div class="cp-wm">
+      <svg width="440" height="440" viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100,12 A85,85 0 1,0 168,55" stroke="#FF6200" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <rect x="55" y="125" width="14" height="40" rx="2" fill="#FF6200"/>
+        <rect x="75" y="110" width="14" height="55" rx="2" fill="#FF6200"/>
+        <rect x="95" y="91" width="14" height="74" rx="2" fill="#FF6200"/>
+        <rect x="115" y="68" width="14" height="97" rx="2" fill="#FF6200"/>
+        <line x1="50" y1="165" x2="133" y2="165" stroke="#FF6200" stroke-width="3"/>
+        <line x1="125" y1="60" x2="168" y2="24" stroke="#FF6200" stroke-width="5" stroke-linecap="round"/>
+        <polygon points="168,24 157,32 162,21" fill="#FF6200"/>
+        <text x="100" y="196" text-anchor="middle" font-family="'Arial Black',Arial,sans-serif" font-size="15" font-weight="900" fill="#FF6200">TRANSFORMAÇÃO</text>
+        <text x="100" y="212" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#FF6200" letter-spacing="4">IVA EXPERIENCE</text>
+      </svg>
+    </div>
+    <!-- Corners -->
+    <div class="cp-corner cp-corner-tl"><svg viewBox="0 0 30 30"><path d="M2,28 L2,2 L28,2" stroke="#FF6200" stroke-width="2" fill="none"/><rect x="0" y="0" width="5" height="5" rx="1" fill="#FF6200"/></svg></div>
+    <div class="cp-corner cp-corner-tr"><svg viewBox="0 0 30 30"><path d="M2,28 L2,2 L28,2" stroke="#FF6200" stroke-width="2" fill="none"/><rect x="0" y="0" width="5" height="5" rx="1" fill="#FF6200"/></svg></div>
+    <div class="cp-corner cp-corner-bl"><svg viewBox="0 0 30 30"><path d="M2,28 L2,2 L28,2" stroke="#FF6200" stroke-width="2" fill="none"/><rect x="0" y="0" width="5" height="5" rx="1" fill="#FF6200"/></svg></div>
+    <div class="cp-corner cp-corner-br"><svg viewBox="0 0 30 30"><path d="M2,28 L2,2 L28,2" stroke="#FF6200" stroke-width="2" fill="none"/><rect x="0" y="0" width="5" height="5" rx="1" fill="#FF6200"/></svg></div>
+    <!-- Header -->
+    <div class="cp-header">
+      <div class="cp-logo-col">
+        <svg width="86" height="98" viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg">
+          <path d="M100,12 A85,85 0 1,0 168,55" stroke="#FF6200" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <rect x="55" y="125" width="14" height="40" rx="2" fill="#FF6200"/>
+          <rect x="75" y="110" width="14" height="55" rx="2" fill="#FF6200"/>
+          <rect x="95" y="91" width="14" height="74" rx="2" fill="#FF6200"/>
+          <rect x="115" y="68" width="14" height="97" rx="2" fill="#FF6200"/>
+          <line x1="50" y1="165" x2="133" y2="165" stroke="#FF6200" stroke-width="2.5"/>
+          <line x1="125" y1="60" x2="168" y2="24" stroke="#FF6200" stroke-width="5" stroke-linecap="round"/>
+          <polygon points="168,24 157,32 162,21" fill="#FF6200"/>
+          <circle cx="58" cy="56" r="5" fill="#FF6200"/>
+          <circle cx="41" cy="43" r="3.5" fill="#FF6200"/>
+          <circle cx="64" cy="36" r="3.5" fill="#FF6200"/>
+          <circle cx="77" cy="48" r="3.5" fill="#FF6200"/>
+          <circle cx="71" cy="64" r="3.5" fill="#FF6200"/>
+          <circle cx="45" cy="67" r="3.5" fill="#FF6200"/>
+          <line x1="58" y1="56" x2="41" y2="43" stroke="#FF6200" stroke-width="1.8"/>
+          <line x1="58" y1="56" x2="64" y2="36" stroke="#FF6200" stroke-width="1.8"/>
+          <line x1="58" y1="56" x2="77" y2="48" stroke="#FF6200" stroke-width="1.8"/>
+          <line x1="58" y1="56" x2="71" y2="64" stroke="#FF6200" stroke-width="1.8"/>
+          <line x1="58" y1="56" x2="45" y2="67" stroke="#FF6200" stroke-width="1.8"/>
+          <rect x="24" y="99" width="25" height="23" rx="2" fill="none" stroke="#FF6200" stroke-width="2"/>
+          <rect x="28" y="103" width="17" height="15" rx="1" fill="none" stroke="#FF6200" stroke-width="1.5"/>
+          <line x1="30" y1="99" x2="30" y2="95" stroke="#FF6200" stroke-width="2"/>
+          <line x1="37" y1="99" x2="37" y2="95" stroke="#FF6200" stroke-width="2"/>
+          <line x1="44" y1="99" x2="44" y2="95" stroke="#FF6200" stroke-width="2"/>
+          <line x1="30" y1="122" x2="30" y2="126" stroke="#FF6200" stroke-width="2"/>
+          <line x1="37" y1="122" x2="37" y2="126" stroke="#FF6200" stroke-width="2"/>
+          <line x1="44" y1="122" x2="44" y2="126" stroke="#FF6200" stroke-width="2"/>
+          <line x1="24" y1="106" x2="20" y2="106" stroke="#FF6200" stroke-width="2"/>
+          <line x1="24" y1="114" x2="20" y2="114" stroke="#FF6200" stroke-width="2"/>
+          <line x1="49" y1="106" x2="53" y2="106" stroke="#FF6200" stroke-width="2"/>
+          <line x1="49" y1="114" x2="53" y2="114" stroke="#FF6200" stroke-width="2"/>
+          <rect x="28" y="146" width="7" height="11" rx="1" fill="#FF6200"/>
+          <rect x="37" y="140" width="7" height="17" rx="1" fill="#FF6200"/>
+          <line x1="25" y1="157" x2="48" y2="157" stroke="#FF6200" stroke-width="2"/>
+          <text x="100" y="196" text-anchor="middle" font-family="'Arial Black',Arial,sans-serif" font-size="15" font-weight="900" fill="#FF6200">TRANSFORMAÇÃO</text>
+          <text x="100" y="212" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#FF6200" letter-spacing="4">IVA EXPERIENCE</text>
+        </svg>
+      </div>
+      <div class="cp-title-col">
+        <div class="cp-title-word">CERTIFICADO</div>
+      </div>
+      <div class="cp-right-col">
+        <div class="cp-code" id="cp1-code"></div>
+      </div>
+    </div>
+    <!-- Divider -->
+    <div class="cp-div"><div class="cp-div-gem"></div></div>
+    <!-- IA badge (shown only for IA cert) -->
+    <div class="cp-ia-badge" id="cp1-ia-badge">
+      <svg width="78" height="42" viewBox="0 0 78 42" xmlns="http://www.w3.org/2000/svg">
+        <!-- Neural network: layer 1 nodes -->
+        <circle cx="7"  cy="10" r="4.5" fill="#FF6200" opacity=".55"/>
+        <circle cx="7"  cy="26" r="4.5" fill="#FF6200" opacity=".55"/>
+        <!-- Layer 2 nodes -->
+        <circle cx="24" cy="6"  r="4"   fill="#FF6200"/>
+        <circle cx="24" cy="18" r="4"   fill="#FF6200"/>
+        <circle cx="24" cy="30" r="4"   fill="#FF6200"/>
+        <!-- Layer 3 nodes -->
+        <circle cx="40" cy="12" r="4.5" fill="#FF6200" opacity=".55"/>
+        <circle cx="40" cy="24" r="4.5" fill="#FF6200" opacity=".55"/>
+        <!-- Connections l1→l2 -->
+        <line x1="11.5" y1="10" x2="20" y2="6"  stroke="#FF6200" stroke-width="1.2" opacity=".4"/>
+        <line x1="11.5" y1="10" x2="20" y2="18" stroke="#FF6200" stroke-width="1.2" opacity=".4"/>
+        <line x1="11.5" y1="26" x2="20" y2="18" stroke="#FF6200" stroke-width="1.2" opacity=".4"/>
+        <line x1="11.5" y1="26" x2="20" y2="30" stroke="#FF6200" stroke-width="1.2" opacity=".4"/>
+        <!-- Connections l2→l3 -->
+        <line x1="28" y1="6"  x2="35.5" y2="12" stroke="#FF6200" stroke-width="1.2" opacity=".4"/>
+        <line x1="28" y1="18" x2="35.5" y2="12" stroke="#FF6200" stroke-width="1.2" opacity=".4"/>
+        <line x1="28" y1="18" x2="35.5" y2="24" stroke="#FF6200" stroke-width="1.2" opacity=".4"/>
+        <line x1="28" y1="30" x2="35.5" y2="24" stroke="#FF6200" stroke-width="1.2" opacity=".4"/>
+        <!-- "IA" bold text -->
+        <text x="50" y="29" font-family="'Arial Black',Arial,sans-serif" font-size="26" font-weight="900" fill="#FF6200">IA</text>
+      </svg>
+    </div>
+    <!-- Body -->
+    <div class="cp-body">
+      <div class="cp-course" id="cp1-course">Transformação — Power BI</div>
+      <div class="cp-org">iva · data experience</div>
+      <div class="cp-conf">Conferido a</div>
+      <div class="cp-name" id="cp1-name"></div>
+      <div class="cp-rg" id="cp1-rg"></div>
+      <div class="cp-para" id="cp1-para">
+        Realizou o curso de Power BI adquirindo habilidades essenciais no uso das ferramentas
+        e recursos do Microsoft Power BI para criar Dashboard com a Carga Horária Total de
+        <strong>25 Horas</strong>.
+      </div>
+    </div>
+    <!-- Footer Page 1 -->
+    <div class="cp-footer1">
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div class="cp-sig-block">
+          <div class="cp-sig-name-script">Italo Iva Furtado Alves</div>
+          <div class="cp-sig-line"></div>
+          <div class="cp-sig-printed">Italo Iva Furtado Alves</div>
+          <div class="cp-sig-detail">RG: 462274706</div>
+          <div class="cp-sig-role">Diretor e Fundador · IVA Data Experience</div>
+        </div>
+        <div class="cp-govbr">
+          <div class="cp-govbr-logo">
+            <svg width="44" height="44" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4"  y="4"  width="14" height="14" rx="2" fill="#F5A623"/>
+              <rect x="20" y="4"  width="14" height="14" rx="2" fill="#EFDC05"/>
+              <rect x="4"  y="20" width="14" height="14" rx="2" fill="#009C3B"/>
+              <rect x="20" y="20" width="14" height="14" rx="2" fill="#009C3B"/>
+              <rect x="4"  y="36" width="14" height="14" rx="2" fill="#0066CC"/>
+              <rect x="20" y="36" width="14" height="14" rx="2" fill="#0066CC"/>
+              <text x="4"  y="70" font-family="'Arial Black',sans-serif" font-size="16" font-weight="900" fill="#1A1A2E">gov</text>
+              <text x="42" y="70" font-family="Arial,sans-serif" font-size="16" fill="#1A1A2E">.br</text>
+            </svg>
+          </div>
+          <div class="cp-govbr-divider"></div>
+          <div class="cp-govbr-text">
+            <div class="t1">Documento assinado digitalmente</div>
+            <div class="t2">ITALO IVA FURTADO ALVES</div>
+            <div class="t3">Data: 08/06/2026 10:53:53-0300</div>
+            <div class="t4">Verifique em https://validar.iti.gov.br</div>
+          </div>
+        </div>
+      </div>
+      <!-- Date + Seal (dynamic seal text) -->
+      <div class="cp-date-seal">
+        <div class="cp-date-txt" id="cp1-date"></div>
+        <div class="cp-seal">
+          <svg width="84" height="84" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="#FF6200" stroke-width="2"/>
+            <circle cx="60" cy="60" r="44" fill="none" stroke="#FF6200" stroke-width=".8"/>
+            <path id="arc1" d="M18,60 A42,42 0 0,1 102,60" fill="none"/>
+            <path id="arc2" d="M18,60 A42,42 0 0,0 102,60" fill="none"/>
+            <text font-size="7.5" font-family="Arial,sans-serif" font-weight="700" fill="#FF6200" letter-spacing="2">
+              <textPath href="#arc1" startOffset="6%">TRANSFORMAÇÃO · IVA DATA EXPERIENCE</textPath>
+            </text>
+            <text font-size="7.5" font-family="Arial,sans-serif" fill="#FF6200" letter-spacing="2.5">
+              <textPath href="#arc2" startOffset="22%">· CERTIFICADO · 2026 ·</textPath>
+            </text>
+            <text id="cp1-seal-l1" x="60" y="55" text-anchor="middle" font-family="'Arial Black',sans-serif" font-size="12" font-weight="900" fill="#FF6200">POWER</text>
+            <text id="cp1-seal-l2" x="60" y="70" text-anchor="middle" font-family="'Arial Black',sans-serif" font-size="12" font-weight="900" fill="#FF6200">BI</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div><!-- /cp1 -->
+
+  <!-- ── PAGE 2 ── -->
+  <div class="cert-page" id="cp2">
+    <div class="cp-strip"></div>
+    <div class="cp-frame"></div>
+    <div class="cp-frame-inner"></div>
+    <div class="cp-wm">
+      <svg width="440" height="440" viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100,12 A85,85 0 1,0 168,55" stroke="#FF6200" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <rect x="55" y="125" width="14" height="40" rx="2" fill="#FF6200"/>
+        <rect x="75" y="110" width="14" height="55" rx="2" fill="#FF6200"/>
+        <rect x="95" y="91" width="14" height="74" rx="2" fill="#FF6200"/>
+        <rect x="115" y="68" width="14" height="97" rx="2" fill="#FF6200"/>
+        <text x="100" y="196" text-anchor="middle" font-family="'Arial Black',Arial,sans-serif" font-size="15" font-weight="900" fill="#FF6200">TRANSFORMAÇÃO</text>
+      </svg>
+    </div>
+    <div class="cp-corner cp-corner-tl"><svg viewBox="0 0 30 30"><path d="M2,28 L2,2 L28,2" stroke="#FF6200" stroke-width="2" fill="none"/><rect x="0" y="0" width="5" height="5" rx="1" fill="#FF6200"/></svg></div>
+    <div class="cp-corner cp-corner-tr"><svg viewBox="0 0 30 30"><path d="M2,28 L2,2 L28,2" stroke="#FF6200" stroke-width="2" fill="none"/><rect x="0" y="0" width="5" height="5" rx="1" fill="#FF6200"/></svg></div>
+    <div class="cp-corner cp-corner-bl"><svg viewBox="0 0 30 30"><path d="M2,28 L2,2 L28,2" stroke="#FF6200" stroke-width="2" fill="none"/><rect x="0" y="0" width="5" height="5" rx="1" fill="#FF6200"/></svg></div>
+    <div class="cp-corner cp-corner-br"><svg viewBox="0 0 30 30"><path d="M2,28 L2,2 L28,2" stroke="#FF6200" stroke-width="2" fill="none"/><rect x="0" y="0" width="5" height="5" rx="1" fill="#FF6200"/></svg></div>
+    <div class="cp-header">
+      <div class="cp-logo-col">
+        <svg width="86" height="98" viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg">
+          <path d="M100,12 A85,85 0 1,0 168,55" stroke="#FF6200" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <rect x="55" y="125" width="14" height="40" rx="2" fill="#FF6200"/>
+          <rect x="75" y="110" width="14" height="55" rx="2" fill="#FF6200"/>
+          <rect x="95" y="91" width="14" height="74" rx="2" fill="#FF6200"/>
+          <rect x="115" y="68" width="14" height="97" rx="2" fill="#FF6200"/>
+          <line x1="50" y1="165" x2="133" y2="165" stroke="#FF6200" stroke-width="2.5"/>
+          <line x1="125" y1="60" x2="168" y2="24" stroke="#FF6200" stroke-width="5" stroke-linecap="round"/>
+          <polygon points="168,24 157,32 162,21" fill="#FF6200"/>
+          <text x="100" y="196" text-anchor="middle" font-family="'Arial Black',Arial,sans-serif" font-size="15" font-weight="900" fill="#FF6200">TRANSFORMAÇÃO</text>
+          <text x="100" y="212" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#FF6200" letter-spacing="4">IVA EXPERIENCE</text>
+        </svg>
+      </div>
+      <div class="cp-title-col">
+        <div class="cp-title-word" style="font-size:27px; letter-spacing:5px;">CONTEÚDO PROGRAMÁTICO</div>
+      </div>
+      <div class="cp-right-col">
+        <div class="cp-code" id="cp2-code"></div>
+      </div>
+    </div>
+    <div class="cp-div"><div class="cp-div-gem"></div></div>
+    <div class="cp-p2-body">
+      <div class="cp-p2-title" id="cp2-title">Treinamento Power BI — 25 horas</div>
+      <div class="cp-p2-sub">Participante: <span class="cp-p2-name-span" id="cp2-name"></span></div>
+      <table class="mod-table">
+        <thead>
+          <tr><th>Mód.</th><th>Conteúdo</th><th>Carga</th></tr>
+        </thead>
+        <tbody id="cp2-modules">
+          <!-- Populated by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+    <div class="cp-footer2">
+      <span class="cp-footer2-txt" id="cp2-date"></span>
+    </div>
+  </div><!-- /cp2 -->
+
+</div><!-- /cert-render -->
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+/* ── PARTICIPANTS DATA ── */
+const P = [
+  { nome:"Anderson Sobrinho Oliveira",          rg:"48.974.562-3",   cpf:"39039485860" },
+  { nome:"Gabriela Alves de Mello Lopes",       rg:"456.947.231",    cpf:"45588798813" },
+  { nome:"Tirza Cristina Sousa da Silva",       rg:"457.546.396",    cpf:"45678133837" },
+  { nome:"Thaís de Araújo Dantas",              rg:"402.996.264",    cpf:"23057241875" },
+  { nome:"Isabella Medeiros",                   rg:"430.346.232",    cpf:"44578894827" },
+  { nome:"Renan Miranda da Silva",              rg:"360.082.646",    cpf:"38867914839" },
+  { nome:"Alessandra Cristina Medeiros Fabris", rg:"352.686.145",    cpf:"29479234807" },
+  { nome:"Suellen Santana Oliveira",            rg:"443.977.545",    cpf:"34333383889" },
+  { nome:"Andressa Santana Novaes",             rg:"489.244.841",    cpf:"38493105821" },
+  { nome:"Julio Cesar Tarsitano de Lara",       rg:"421.641.794",    cpf:"42137978806" },
+  { nome:"Roberta Bezerra Jacintho",            rg:"55.380.439-X",   cpf:"44055362870" }
+];
+
+/* ── COURSE DEFINITIONS ── */
+const COURSES = {
+  pbi: {
+    label:    'Power BI',
+    certTitle:'Transformação — Power BI',
+    sealL1:   'POWER',
+    sealL2:   'BI',
+    para:     'Realizou o curso de Power BI adquirindo habilidades essenciais no uso das ferramentas e recursos do Microsoft Power BI para criar Dashboard com a Carga Horária Total de <strong>25 Horas</strong>.',
+    p2Title:  'Treinamento Power BI — 25 horas',
+    modules:  [
+      [1,'Introdução ao Power BI: visão geral do fluxo de trabalho — importação, tratamento, modelagem, cálculos DAX e visualização','1,5h'],
+      [2,'Importação de dados no Power BI Desktop: conexão com Excel, navegação nas tabelas, carregamento para o Power Query e organização da base','4h'],
+      [3,'Power Query e tratamento de dados: tipos, remoção de colunas, cabeçalhos, divisão e duplicação de colunas, substituição de valores, índice e etapas aplicadas','3h'],
+      [4,'Modelagem dimensional: tabela fato, tabela dimensão, criação de dimensões por referência, remoção de duplicidades, separação entre dados transacionais e descritivos','3,5h'],
+      [5,'Relacionamentos no Power BI: chaves, cardinalidade 1:N, direção de filtro, propagação de filtros e modelo estrela','2h'],
+      [6,'Tabela calendário: criação com DAX, colunas de ano, mês, mês/ano, data de referência e uso em análises por período','2,5h'],
+      [7,'DAX essencial e intermediário: medidas, colunas calculadas, contexto de filtro — SUM, SUMX, COUNTROWS, AVERAGE, DIVIDE, CALCULATE, ALL, FILTER e reutilização de medidas','4,5h'],
+      [8,'KPIs e indicadores financeiros: faturamento, receita, custo, despesas, lucro, margem bruta/líquida, liquidez corrente, ROA, ticket médio, crescimento e acumulados','2h'],
+      [9,'Construção do dashboard: cartões, tabelas, segmentações, gráficos de linha/coluna/barra/gauge, formatação, layout, validação dos cálculos e apresentação final','2h']
+    ]
+  },
+  ia: {
+    label:    'Inteligência Artificial',
+    certTitle:'Transformação — Inteligência Artificial',
+    sealL1:   'INTEL.',
+    sealL2:   'ARTIF.',
+    para:     'Concluiu com distinção o curso de Inteligência Artificial Prática, desenvolvendo proficiência em Claude, ChatGPT e engenharia de prompts avançada, automações inteligentes com n8n, soluções no-code e projeto final integrado — transformando conhecimento em entrega real com Carga Horária Total de <strong>25 Horas</strong>.',
+    p2Title:  'Inteligência Artificial na Prática — 25 horas',
+    modules:  [
+      [1,'Fundamentos de Inteligência Artificial: conceitos essenciais, aplicações práticas no mercado e uso responsável da IA no ambiente profissional','1h'],
+      [2,'Claude, ChatGPT e Engenharia de Prompt: estrutura de prompts eficazes, técnicas avançadas, personas, chain-of-thought e produtividade com IA','6h'],
+      [3,'NotebookLM e análise de documentos com IA: upload de fontes, perguntas sobre documentos, síntese de conteúdo e geração de insights automatizados','1,5h'],
+      [4,'Gamma e criação de apresentações com IA: geração automática de decks, edição de slides, ajuste de layout e exportação profissional','1h'],
+      [5,'AppSheet e Google Sheets para soluções no-code: criação de aplicativos sem código, integração com planilhas, formulários e dashboards automatizados','1,5h'],
+      [6,'GitHub e organização de projetos de IA: repositórios, versionamento, documentação com IA e boas práticas de organização de projetos','1h'],
+      [7,'n8n e automações com Inteligência Artificial: fluxos de automação, integração com APIs, webhooks, agentes de IA e automações de ponta a ponta','4h'],
+      [8,'Super Projeto Final Integrado: desenvolvimento de uma solução real combinando dados, app, automação, documentação e apresentação com IA','8h']
+    ]
+  }
+};
+
+/* ── STATE ── */
+let selIdx    = null;
+let selCourse = null; // 'pbi' | 'ia'
+
+/* ── HELPERS ── */
+const norm   = s => s.replace(/\D/g,'');
+const inits  = n => { const p=n.trim().split(' ').filter(Boolean); return p.length>1?(p[0][0]+p[p.length-1][0]).toUpperCase():p[0][0].toUpperCase(); };
+const dateBR = () => { const m=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],d=new Date(); return `Santos, ${d.getDate()} de ${m[d.getMonth()]} de ${d.getFullYear()}`; };
+const code   = n => 'IVA-'+(n.split('').reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,0)).toString(16).toUpperCase().padStart(8,'0').slice(-6);
+
+function fmtCPF(el) {
+  let v = el.value.replace(/\D/g,'').slice(0,11);
+  if(v.length>9)      v=v.replace(/^(\d{3})(\d{3})(\d{3})(\d{0,2})/,'$1.$2.$3-$4');
+  else if(v.length>6) v=v.replace(/^(\d{3})(\d{3})(\d{0,3})/,'$1.$2.$3');
+  else if(v.length>3) v=v.replace(/^(\d{3})(\d{0,3})/,'$1.$2');
+  el.value=v;
+}
+
+/* ── NAVIGATION ── */
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function goSelect()  { show('screen-select'); selIdx=null; selCourse=null; }
+function goCourse()  { show('screen-course'); }
+
+/* ── SCREEN 1: build student grid ── */
+(function buildGrid(){
+  const g=document.getElementById('student-grid');
+  g.innerHTML=P.map((p,i)=>`
+    <div class="stu-card" onclick="pick(${i})" tabindex="0" onkeydown="if(event.key==='Enter')pick(${i})" role="button" aria-label="Selecionar ${p.nome}">
+      <div class="stu-avatar">${inits(p.nome)}</div>
+      <div class="stu-info">
+        <h3>${p.nome}</h3>
+        <p>RG: ${p.rg}</p>
+      </div>
+      <svg class="stu-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9,18 15,12 9,6"/></svg>
+    </div>
+  `).join('');
+})();
+
+/* ── SCREEN COURSE ── */
+function pick(i) {
+  selIdx=i;
+  document.getElementById('sc-name').textContent=P[i].nome;
+  show('screen-course');
+}
+
+/* ── SCREEN AUTH ── */
+function pickCourse(course) {
+  selCourse=course;
+  const p=P[selIdx];
+  const cData=COURSES[course];
+  document.getElementById('s2-name').textContent=p.nome;
+  document.getElementById('s2-course-label').textContent=cData.label+' · 25h';
+  const inp=document.getElementById('cpf-in');
+  inp.value=''; inp.classList.remove('err');
+  document.getElementById('s2-err').classList.remove('show');
+  show('screen-auth');
+  setTimeout(()=>inp.focus(),320);
+}
+
+function doAuth() {
+  const p=P[selIdx], inp=document.getElementById('cpf-in'), err=document.getElementById('s2-err');
+  if(norm(inp.value)===p.cpf) {
+    inp.classList.remove('err'); err.classList.remove('show');
+    buildCert(p, selCourse);
+    show('screen-cert');
+  } else {
+    inp.classList.add('err'); err.classList.add('show');
+    inp.focus(); inp.select();
+  }
+}
+
+/* ── BUILD CERTIFICATE ── */
+function buildCert(p, course) {
+  const d=dateBR(), c=code(p.nome);
+  const cData=COURSES[course];
+
+  // Page 1 — dynamic content
+  document.getElementById('cp1-course').textContent=cData.certTitle;
+  document.getElementById('cp1-para').innerHTML=cData.para;
+  document.getElementById('cp1-name').textContent=p.nome;
+  document.getElementById('cp1-rg').textContent='RG: '+p.rg;
+  document.getElementById('cp1-date').textContent=d;
+  document.getElementById('cp1-code').textContent=c;
+  document.getElementById('cp1-seal-l1').textContent=cData.sealL1;
+  document.getElementById('cp1-seal-l2').textContent=cData.sealL2;
+
+  // IA badge — show/hide
+  document.getElementById('cp1-ia-badge').style.display=(course==='ia')?'block':'none';
+
+  // Page 2 — dynamic content
+  document.getElementById('cp2-title').textContent=cData.p2Title;
+  document.getElementById('cp2-name').textContent=p.nome;
+  document.getElementById('cp2-date').textContent=d+' · '+c;
+  document.getElementById('cp2-code').textContent=c;
+
+  // Build module table
+  const tbody=document.getElementById('cp2-modules');
+  tbody.innerHTML=cData.modules.map(([n,t,h])=>
+    `<tr><td>${n}</td><td>${t}</td><td>${h}</td></tr>`
+  ).join('')+`<tr class="tr-total"><td colspan="2"><strong>TOTAL</strong></td><td><strong>25h</strong></td></tr>`;
+
+  // Viewer header
+  document.getElementById('s3-name').textContent=p.nome.split(' ')[0]+' — '+cData.label;
+
+  // Render previews
+  renderPrev('cp1','prev1');
+  renderPrev('cp2','prev2');
+}
+
+/* ── PREVIEW RENDERER ── */
+function getScale() { return Math.min(1,(window.innerWidth-48)/1050); }
+
+function renderPrev(srcId, wrapId) {
+  const w=document.getElementById(wrapId), src=document.getElementById(srcId);
+  w.innerHTML='';
+  const sc=getScale(), cl=src.cloneNode(true);
+  cl.removeAttribute('id');
+  cl.style.cssText=`width:1050px;height:743px;transform:scale(${sc});transform-origin:top left;visibility:visible;`;
+  w.style.cssText=`width:${Math.round(1050*sc)}px;height:${Math.round(743*sc)}px;overflow:hidden;`;
+  w.appendChild(cl);
+}
+
+window.addEventListener('resize',()=>{
+  if(selIdx!==null && document.getElementById('screen-cert').classList.contains('active')) {
+    renderPrev('cp1','prev1');
+    renderPrev('cp2','prev2');
+  }
+});
+
+/* ── PDF DOWNLOAD — High Quality ── */
+async function dlPDF() {
+  const btn=document.getElementById('btn-dl'), ov=document.getElementById('loading'), msg=document.getElementById('loading-msg');
+  btn.disabled=true; ov.classList.add('on');
+
+  const render=document.getElementById('cert-render');
+  render.style.visibility='visible';
+  render.style.left='-9999px';
+
+  // Wait for all fonts to finish loading before capture
+  try { await document.fonts.ready; } catch(e){}
+  await new Promise(r=>setTimeout(r,600));
+
+  const { jsPDF }=window.jspdf;
+  const pdf=new jsPDF({ orientation:'landscape', unit:'mm', format:'a4' });
+
+  const H2C_OPTS = {
+    scale: 3,            // 3× ≈ 270dpi on A4 landscape
+    useCORS: true,
+    allowTaint: false,
+    backgroundColor: '#ffffff',
+    logging: false,
+    width: 1050,
+    height: 743,
+    windowWidth: 1050,
+    windowHeight: 743,
+    imageTimeout: 30000,
+  };
+
+  try {
+    msg.textContent='Renderizando página 1…';
+    const cv1=await html2canvas(document.getElementById('cp1'), H2C_OPTS);
+    const img1=cv1.toDataURL('image/png');    // PNG — no JPEG compression artifacts
+    pdf.addImage(img1,'PNG',0,0,297,210,undefined,'FAST');
+
+    msg.textContent='Renderizando página 2…';
+    const cv2=await html2canvas(document.getElementById('cp2'), H2C_OPTS);
+    const img2=cv2.toDataURL('image/png');
+    pdf.addPage();
+    pdf.addImage(img2,'PNG',0,0,297,210,undefined,'FAST');
+
+    render.style.visibility='hidden';
+    msg.textContent='Salvando PDF…';
+    await new Promise(r=>setTimeout(r,150));
+
+    const cData=COURSES[selCourse];
+    const courseSuffix=selCourse==='ia'?'IA':'PowerBI';
+    const fname=`Certificado_${P[selIdx].nome.replace(/[^a-zA-ZÀ-ú\s]/g,'').trim().replace(/\s+/g,'_')}_${courseSuffix}.pdf`;
+    pdf.save(fname);
+  } catch(e) {
+    console.error(e);
+    render.style.visibility='hidden';
+    alert('Erro ao gerar PDF: '+e.message+'\nTente novamente.');
+  } finally {
+    ov.classList.remove('on');
+    btn.disabled=false;
+  }
+}
+</script>
+</body>
+</html>
